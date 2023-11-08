@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   GraphCanvas,
   GraphEdge,
@@ -7,9 +7,9 @@ import {
   NodeRendererProps,
   Svg,
   Theme,
-} from "reagraph";
+} from "reagraph"
 
-import Logo from "./computer.svg";
+import Logo from "./computer.svg"
 
 const graphTheme: Theme = {
   canvas: {
@@ -50,15 +50,15 @@ const graphTheme: Theme = {
     background: "black",
     border: "black",
   },
-};
+}
 
 type GraphProps = {
-  nodes: Array<GraphNode>;
-  edges: Array<GraphEdge>;
-  canvasClickHandler: () => void;
-  nodeClickHandler: (node: InternalGraphNode) => void;
-  nodeHoverHandler: (node: InternalGraphNode) => void;
-};
+  nodes: Array<GraphNode>
+  edges: Array<GraphEdge>
+  canvasClickHandler: () => void
+  nodeClickHandler: (node: InternalGraphNode) => void
+  nodeHoverHandler: (node: InternalGraphNode) => void
+}
 
 export const Graph = (props: GraphProps): React.ReactElement => {
   const {
@@ -72,11 +72,11 @@ export const Graph = (props: GraphProps): React.ReactElement => {
 
   const collapseNode = (id: string) => {
     if (collapseNodes.includes(id)) {
-      setCollapseNodes(collapseNodes.filter((n) => n !== id));
+      setCollapseNodes(collapseNodes.filter((n) => n !== id))
     } else {
-      setCollapseNodes([...collapseNodes, id]);
+      setCollapseNodes([...collapseNodes, id])
     }
-  };
+  }
 
   const renderNode = (props: NodeRendererProps) => {
     return (
@@ -86,11 +86,11 @@ export const Graph = (props: GraphProps): React.ReactElement => {
         image={Logo}
         active={collapseNodes.includes(props.node.id)}
       />
-    );
-  };
+    )
+  }
 
   return (
-    <div style={{ marginTop: "70px", maxHeight:'100px' }}>
+    <div style={{ marginTop: "70px", maxHeight: "100px" }}>
       <GraphCanvas
         nodes={nodes}
         edges={edges}
@@ -100,13 +100,13 @@ export const Graph = (props: GraphProps): React.ReactElement => {
         edgeArrowPosition="none"
         draggable={true}
         onNodeClick={(props) => {
-          const { id } = props;
-          collapseNode(id);
-          nodeClickHandler(props);
+          const { id } = props
+          collapseNode(id)
+          nodeClickHandler(props)
         }}
         onNodePointerOver={nodeHoverHandler}
         renderNode={renderNode}
       />
     </div>
-  );
-};
+  )
+}
