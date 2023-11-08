@@ -10,7 +10,7 @@ const styles = {
   },
 }
 
-const initialNeID = "5"
+const endpoint = "/api/alarm/topology"
 
 function Topology() {
   const defaultDetailData = { isVisible: false }
@@ -19,13 +19,30 @@ function Topology() {
     useState<NodeDetailProps>(defaultDetailData)
   const [nodes, setNodes] = useState<Array<GraphNode>>([])
   const [edges, setEdges] = useState<Array<GraphEdge>>([])
+  const [centerPk, setCenterPk] = useState<string>("")
 
   useEffect(() => {
-    const { nodes, edges } = getNodeNeighbors(initialNeID);
-    setNodes(nodes);
-    setEdges(edges);
-    anotherTest();
-  }, []);
+    // eslint-disable-next-line no-restricted-globals
+    const path = location.pathname
+    if (path.length > endpoint.length) {
+      const pk = path.substring(path.search(endpoint) + endpoint.length + 1)
+      setCenterPk(pk)
+    }
+  }, [])
+
+  useEffect(() => {
+    const fetchAdjacencyData = async () => {
+      if (centerPk && !isNaN(parseInt(centerPk))) {
+        const adjacencyData = await getNodeNeighbors(centerPk)
+        if (adjacencyData) {
+          setNodes(nodes)
+          setEdges(edges)
+        }
+      }
+    }
+    void fetchAdjacencyData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [centerPk])
 
   const canvasClickHandler = () => {
     setDetailData(defaultDetailData)

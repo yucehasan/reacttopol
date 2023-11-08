@@ -67,8 +67,8 @@ export const Graph = (props: GraphProps): React.ReactElement => {
     nodeHoverHandler,
     nodes,
     edges,
-  } = props;
-  const [collapseNodes, setCollapseNodes] = useState<Array<string>>(["6"]);
+  } = props
+  const [collapseNodes, setCollapseNodes] = useState<Array<string>>([])
 
   const collapseNode = (id: string) => {
     if (collapseNodes.includes(id)) {
