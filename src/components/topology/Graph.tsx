@@ -13,17 +13,17 @@ import Logo from "./computer.svg"
 
 const graphTheme: Theme = {
   canvas: {
-    background: "#b2b2c2",
+    background: "#ebebeb",
   },
   node: {
-    fill: "#e5e5ee",
-    activeFill: "white",
+    fill: "black",
+    activeFill: "blue",
     opacity: 0.9,
     selectedOpacity: 1,
     inactiveOpacity: 0.1,
     label: {
       color: "black",
-      activeColor: "#e5e5ee",
+      activeColor: "blue",
     },
   },
   ring: {
@@ -82,11 +82,15 @@ export const Graph = (props: GraphProps): React.ReactElement => {
     return (
       <Svg
         {...props}
-        color="black"
+        color={props.color}
         image={Logo}
         active={collapseNodes.includes(props.node.id)}
       />
     )
+  }
+
+  const isNodeHasOutgoingEdges = (id: string) => {
+    return !!edges.find((edge) => edge.source === id)
   }
 
   return (
@@ -101,8 +105,11 @@ export const Graph = (props: GraphProps): React.ReactElement => {
         draggable={true}
         onNodeClick={(props) => {
           const { id } = props
-          collapseNode(id)
-          nodeClickHandler(props)
+          if (isNodeHasOutgoingEdges(id)) {
+            collapseNode(id)
+          } else {
+            nodeClickHandler(props)
+          }
         }}
         onNodePointerOver={nodeHoverHandler}
         renderNode={renderNode}
